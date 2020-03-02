@@ -11,7 +11,7 @@ interface LoginState {
 }
 
 interface Props {
-  host: string;
+  url: string;
 }
 
 export class LoginForm extends React.Component<Props, LoginState> {
@@ -51,7 +51,7 @@ export class LoginForm extends React.Component<Props, LoginState> {
         email: this.state.email,
         password: this.state.password,
     };
-    axios.post(`http://${this.props.host}/api/v2/identity/sessions`,
+    axios.post(`${this.props.url}`,
       {
         email: data.email,
         password: data.password

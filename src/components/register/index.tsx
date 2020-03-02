@@ -14,7 +14,7 @@ interface RegisterState {
 }
 
 interface Props {
-  host: string;
+  url: string;
 }
 
 export class RegisterForm extends Component<Props, RegisterState> {
@@ -33,14 +33,20 @@ export class RegisterForm extends Component<Props, RegisterState> {
   }
 
   onChange = (value: string, key: string) => {
-    if (key === 'email') {
-      value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
-    } else if (key === 'password') {
-      value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
-    } else if (key === 'confirmPassword') {
-      value == this.state.password ? this.setState({confirmPasswordValid: true}) : this.setState({confirmPasswordValid: false});
+    switch(key) {
+      case 'email':
+        value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+        break;
+      case 'password':
+        value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
+        break;
+      case 'confirmPassword':
+        value == this.state.password ? this.setState({confirmPasswordValid: true}) : this.setState({confirmPasswordValid: false});
+        break;
+      default:
+        break;
     }
-     // @ts-ignore
+    // @ts-ignore
     this.setState({
       [key]: value,
     }, this.validateForm);
@@ -58,7 +64,7 @@ export class RegisterForm extends Component<Props, RegisterState> {
         email: this.state.email,
         password: this.state.password,
     };
-    axios.post(`http://${this.props.host}/api/v2/identity/users`,
+    axios.post(`${this.props.url}`,
       {
         email: data.email,
         password: data.password
